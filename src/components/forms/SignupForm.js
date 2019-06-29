@@ -3,7 +3,7 @@ import  PropTypes from 'prop-types';
 import {Form, Button, Message} from 'semantic-ui-react';
 import InlineError from '../messages/InlineError';
 
-class LoginForm extends React.Component{
+class SignupForm extends React.Component{
     state={
         data:{
             username:'',
@@ -51,13 +51,13 @@ class LoginForm extends React.Component{
                     value={data.password} onChange={this.onChange} />
                 </Form.Field>
                 {errors.password && <InlineError text={errors.password} /> }
-                <Button primary>Login</Button>
+                <Button primary>Sign Up</Button>
             </Form>
         );
     }
 }
 
-LoginForm.propTypes ={
+SignupForm.propTypes ={
     submit: PropTypes.func.isRequired
 }
-export default LoginForm;
+export default SignupForm;
