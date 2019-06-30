@@ -17,7 +17,8 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.87.2",
-    "validator": "^11.0.0"
+    "validator": "^11.0.0",
+    "redux-logger": "^3.0.6"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -51,5 +52,5 @@
     "eslint-plugin-react": "^7.14.0",
     "prettier": "^1.18.2"
   },
-  "proxy":"http://localhost:8080"
+  "proxy": "http://localhost:8080"
 }
