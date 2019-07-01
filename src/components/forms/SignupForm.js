@@ -1,63 +1,72 @@
 import React from 'react';
-import  PropTypes from 'prop-types';
-import {Form, Button, Message} from 'semantic-ui-react';
+import PropTypes from 'prop-types';
+import { Form, Button, Message } from 'semantic-ui-react';
+import IsEmail from 'validator/lib/isEmail';
 import InlineError from '../messages/InlineError';
 
-class SignupForm extends React.Component{
-    state={
-        data:{
-            username:'',
-            password:''
+class SignupForm extends React.Component {
+    state = {
+        data: {
+            username: '',
+            password: '',
+            email: ''
         },
-        loading:false,
-        errors:{}
+        loading: false,
+        errors: {}
     }
-    onChange= e=> this.setState({
-        data:{...this.state.data,[e.target.name]: e.target.value}
+    onChange = e => this.setState({
+        data: { ...this.state.data, [e.target.name]: e.target.value }
     })
-    onSubmit= ()=>{
+    onSubmit = () => {
         const errors = this.validate(this.state.data);
-        this.setState({errors});
-        if(Object.keys(errors).length===0){
-            this.setState({loading:true});
+        this.setState({ errors });
+        if (Object.keys(errors).length === 0) {
+            this.setState({ loading: true });
             this.props.submit(this.state.data)
             .catch(err => this.setState({errors:err.response.data.errors, loading:false}))
         }
     }
-    validate =(data)=>{
-        const errors={};
-        if(!data.username) errors.username = "Username is required";
-        if(!data.password) errors.password = "Password is required";
+    validate = (data) => {
+        const errors = {};
+        if (!data.username) errors.username = "Username is required";
+        if (!data.password) errors.password = "Password is required";
+        if (!IsEmail(data.email)) errors.email = "Invalid email address";
         return errors;
     }
     render() {
-        const {data, errors, loading} = this.state;
+        const { data, errors, loading } = this.state;
 
         return (
             <Form onSubmit={this.onSubmit} loading={loading}>
-                { errors && errors.global && <Message negative>
+                {errors && errors.global && <Message negative>
                     <Message.Header>Something went wrong</Message.Header>
                     <p>{errors.global}</p>
-                    </Message>}
-                <Form.Field error={errors? !!errors.username:false}>
+                </Message>}
+                <Form.Field error={errors ? !!errors.username : false}>
                     <label htmlFor="username">Username</label>
                     <input type="text" id="username" name="username" placeholder="Enter Username"
-                    value={data.username} onChange={this.onChange} />
+                        value={data.username} onChange={this.onChange} />
                 </Form.Field>
-                {errors.username && <InlineError text={errors.username} /> }
-                <Form.Field error={errors? !!errors.password:false}>
+                {errors.username && <InlineError text={errors.username} />}
+                <Form.Field error={errors ? !!errors.password : false}>
                     <label htmlFor="password">Password</label>
                     <input type="password" id="password" name="password" placeholder="password"
-                    value={data.password} onChange={this.onChange} />
+                        value={data.password} onChange={this.onChange} />
                 </Form.Field>
-                {errors.password && <InlineError text={errors.password} /> }
+                {errors.password && <InlineError text={errors.password} />}
+                <Form.Field error={errors ? !!errors.email : false}>
+                    <label htmlFor="email">email</label>
+                    <input type="text" id="email" name="email" placeholder="email"
+                        value={data.email} onChange={this.onChange} />
+                </Form.Field>
+                {errors.email && <InlineError text={errors.email} />}
                 <Button primary>Sign Up</Button>
             </Form>
         );
     }
 }
 
-SignupForm.propTypes ={
+SignupForm.propTypes = {
     submit: PropTypes.func.isRequired
 }
 export default SignupForm;
