@@ -44,7 +44,8 @@ class ConfirmationPage extends React.Component {
                         <Message.Content>
                             <Message.Header>Oops!! Verification link is expired</Message.Header>
                             Dear {this.props.username},
-                            {this.props.username && !this.props.confirmationMailResent && <Button onClick={() => this.props.resendConfirmationLink(this.props.username)}>
+                            {this.props.username && !this.props.confirmationMailResent && 
+                            <Button onClick={() => this.props.resendConfirmationLink(this.props.username)}>
                                 Resend confirmation Mail</Button>
                             }
                             {!this.props.username && <span>Invalid link for confirmation.
