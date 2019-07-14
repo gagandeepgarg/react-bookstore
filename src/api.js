@@ -22,5 +22,9 @@ export default {
             axios.get(`/api/books/getBooksData?pageNumber=${pageNumber}&filesPerPage=${filesPerPage}`),
         loadUserBooksData: (pageNumber, filesPerPage,username) =>
             axios.get(`/api/books/getUserBooksData?pageNumber=${pageNumber}&filesPerPage=${filesPerPage}&username=${username}`),
+    },
+    cart:{
+        loadCartItems: (username) =>
+            axios.get(`/api/carts/getUserCartItems?username=${username}`),
     }
 };

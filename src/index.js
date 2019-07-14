@@ -17,7 +17,6 @@ if (localStorage.bookwormJWT) {
         email: payload.email,
         confirmed: payload.confirmed
     };
-    console.log(user)
     store.dispatch(userLoggedIn(user));
 }
 

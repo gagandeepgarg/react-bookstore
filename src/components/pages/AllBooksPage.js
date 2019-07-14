@@ -56,8 +56,6 @@ class AllBooksPage extends React.Component {
         );
     }
 }
-AllBooksPage.defaultProps = {
-};
 AllBooksPage.propTypes = {
     loadBooksData:PropTypes.func.isRequired
 }
