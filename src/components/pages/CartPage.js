@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { Message, Icon, Grid, Input } from 'semantic-ui-react';
-import { loadCartItems } from '../../actions/carts';
+import { loadCartItems, updateCartItemQuantity,removeItemFromCart } from '../../actions/carts';
 import HeaderPage from '../pages/HeaderPage';
 
 class CartPage extends React.Component {
@@ -12,13 +12,19 @@ class CartPage extends React.Component {
         userCart:[]
     }
     componentDidMount() {
-        this.props.loadCartItems(this.props.user.username)
-            .then((cart) => this.setState({userCart:cart, loading: false, success: true }))
+        this.props.loadCartItems(this.props.username)
+            .then((cart) => {
+                console.log(cart);
+                this.setState({userCart:cart, loading: false, success: true })
+        })
             .catch(() => this.setState({ loading: false, success: false }))
     }
     onChange= (cartItem,quantity)=> {
         cartItem.quantity=quantity;
-        this.setState({ userCart: this.state.userCart });
+        this.setState({ loading: true });
+        this.props.updateCartItemQuantity(cartItem)
+        .then(() => this.setState({ loading: false,userCart: this.state.userCart }))
+        .catch(() => this.setState({ loading: false}))
     }
     getCartTotal = ()=>{
         let total = 0;
@@ -28,8 +34,13 @@ class CartPage extends React.Component {
         return total;
     } 
     removeItem = (item)=>{
-        this.state.userCart.splice(this.state.userCart.indexOf(item),1);
-        this.setState({ userCart: this.state.userCart })
+        this.setState({ loading: false});
+        this.props.removeItemFromCart(item)
+        .then(() => {
+            this.state.userCart.splice(this.state.userCart.indexOf(item),1);
+            this.setState({ loading: false,userCart: this.state.userCart });
+        })
+        .catch(() => this.setState({ loading: false}))
     }
     
     
@@ -117,15 +128,16 @@ class CartPage extends React.Component {
 }
 
 CartPage.propTypes = {
-    user:PropTypes.shape({
-        username:PropTypes.string.isRequired
-    }).isRequired,
-    loadCartItems:PropTypes.func.isRequired
+    username:PropTypes.string.isRequired,
+    loadCartItems:PropTypes.func.isRequired,
+    updateCartItemQuantity:PropTypes.func.isRequired,
+    removeItemFromCart:PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
     return {
-        user: state.user
+        username: state.user.username
     }
 }
-export default connect(mapStateToProps, { loadCartItems })(CartPage);
+export default connect(mapStateToProps, 
+    { loadCartItems,updateCartItemQuantity,removeItemFromCart })(CartPage);

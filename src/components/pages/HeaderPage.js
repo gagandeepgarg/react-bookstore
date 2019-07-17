@@ -5,9 +5,14 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import { withRouter } from "react-router";
 import * as authAction from '../../actions/auth';
-
+import { loadCartItems } from '../../actions/carts';
 
 class HeaderPage extends React.Component{
+
+    componentDidMount() {
+        this.props.loadCartItems(this.props.username)
+        .then((cart) => console.log(cart));
+    }
     handleClick = (e, { name })=> {
         if(name==='home'){
             this.props.history.push("/");
@@ -32,7 +37,7 @@ class HeaderPage extends React.Component{
                     </Menu.Item> }
                     {this.props.isLoggedIn && (
                         <span>
-                            <Link to="/cart"><Button  >My Cart(0)</Button></Link>
+                            <Link to="/cart"><Button  >My Cart({this.props.cartItemsCount})</Button></Link>
                             <Button onClick={()=>this.props.logout()} >Log Out</Button>
                         </span>)
                     }
@@ -42,17 +47,25 @@ class HeaderPage extends React.Component{
         );
     }
 }
+HeaderPage.defaultProps ={
+    cartItemsCount:0
+}
 
 HeaderPage.propTypes = {
     isLoggedIn:PropTypes.bool.isRequired,
     logout:PropTypes.func.isRequired,
     history : PropTypes.shape({
         push:PropTypes.func.isRequired
-    }).isRequired
+    }).isRequired,
+    cartItemsCount:PropTypes.number,
+    loadCartItems:PropTypes.func.isRequired,
+    username:PropTypes.string.isRequired
 }
 const mapStateToProps = (state) => {
     return {
-        isLoggedIn: !!state.user.token
+        isLoggedIn: !!state.user.token,
+        username:state.user.username,
+        cartItemsCount:state.cart.cartItemsCount
     }
 }
-export default connect(mapStateToProps,{ logout:authAction.logout })(withRouter(HeaderPage));
+export default connect(mapStateToProps,{ logout:authAction.logout,loadCartItems })(withRouter(HeaderPage));

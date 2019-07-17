@@ -26,5 +26,11 @@ export default {
     cart:{
         loadCartItems: (username) =>
             axios.get(`/api/carts/getUserCartItems?username=${username}`),
+        addToCart:(book,username) =>
+            axios.post(`/api/carts/addToCart`,{book,username}),
+        updateCartItemQuantity:(cartItem) =>
+            axios.post(`/api/carts/updateQuantity`,{cartItem}),
+        removeItemFromCart:(cartItem) =>
+            axios.post(`/api/carts/removeFromCart`,{cartItem})
     }
 };
