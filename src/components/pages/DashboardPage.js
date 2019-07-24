@@ -9,10 +9,12 @@ import HeaderPage from '../pages/HeaderPage';
 const DashboardPage = ({ isConfirmed }) => (
     <div>
         <HeaderPage/>
+        <br/>
         {!isConfirmed && <ConfirmEmailMessage />}
-
-        {isConfirmed && <AllBooksPage />}
+        
         {isConfirmed && <UserBooksPage />}
+        <br/> <br/>
+        {isConfirmed && <AllBooksPage />}
     </div>
 );
 

@@ -37,6 +37,9 @@ class HeaderPage extends React.Component{
                     </Menu.Item> }
                     {this.props.isLoggedIn && (
                         <span>
+                            {/* <Link to="/order"> */}
+                                <Button  >My Orders</Button>
+                                {/* </Link> */}
                             <Link to="/cart"><Button  >My Cart({this.props.cartItemsCount})</Button></Link>
                             <Button onClick={()=>this.props.logout()} >Log Out</Button>
                         </span>)

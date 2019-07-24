@@ -33,3 +33,10 @@ export const removeItemFromCart = (cartItem) => (dispatch) =>
         dispatch(UpdateCartItemCount(res.data.cartItems));
         return res.data;
     });
+export const checkout = (username) => (dispatch) =>
+    api.cart.checkout(username)
+    .then(res=>{
+        dispatch(UpdateCartItemCount(res.data.cartItems));
+        return res.data;
+    });
+    

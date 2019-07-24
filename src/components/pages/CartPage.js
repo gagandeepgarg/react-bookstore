@@ -1,8 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Message, Icon, Grid, Input } from 'semantic-ui-react';
-import { loadCartItems, updateCartItemQuantity,removeItemFromCart } from '../../actions/carts';
+import { Message, Icon, Grid, Input,Button } from 'semantic-ui-react';
+import { loadCartItems, updateCartItemQuantity,removeItemFromCart, checkout } from '../../actions/carts';
 import HeaderPage from '../pages/HeaderPage';
 
 class CartPage extends React.Component {
@@ -13,10 +13,7 @@ class CartPage extends React.Component {
     }
     componentDidMount() {
         this.props.loadCartItems(this.props.username)
-            .then((cart) => {
-                console.log(cart);
-                this.setState({userCart:cart, loading: false, success: true })
-        })
+            .then((cart) => this.setState({userCart:cart, loading: false, success: true }))
             .catch(() => this.setState({ loading: false, success: false }))
     }
     onChange= (cartItem,quantity)=> {
@@ -42,7 +39,13 @@ class CartPage extends React.Component {
         })
         .catch(() => this.setState({ loading: false}))
     }
-    
+    checkOut = () =>{
+        if(this.state.userCart.length>0){
+            this.setState({loading: true });
+            this.props.checkout(this.props.username)
+                .then(() => this.setState({userCart:[], loading: false }));
+        }
+    }
     
     render() {
         const { loading, success, userCart } = this.state;
@@ -98,17 +101,19 @@ class CartPage extends React.Component {
                                 </Grid.Row>
                             )}
                                 <Grid.Row>
-                                        <Grid.Column/>
-                                        <Grid.Column/>
-                                        <Grid.Column/>
-                                        <Grid.Column>
-                                            Total:
-                                        </Grid.Column>
-                                        <Grid.Column>
+                                    <Grid.Column/>
+                                    <Grid.Column/>
+                                    <Grid.Column/>
+                                    <Grid.Column>
+                                        Total:
+                                    </Grid.Column>
+                                    <Grid.Column>
                                         {this.getCartTotal()}
-                                        </Grid.Column>
-                                    </Grid.Row>
+                                    </Grid.Column>
+                                </Grid.Row>
                             </Grid>
+                           {this.state.userCart.length>0 &&
+                            <Button primary onClick={()=>this.checkOut()}>CheckOut</Button>}
                         </div>
                     </div>)
                 }
@@ -131,7 +136,8 @@ CartPage.propTypes = {
     username:PropTypes.string.isRequired,
     loadCartItems:PropTypes.func.isRequired,
     updateCartItemQuantity:PropTypes.func.isRequired,
-    removeItemFromCart:PropTypes.func.isRequired
+    removeItemFromCart:PropTypes.func.isRequired,
+    checkout:PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => {
@@ -140,4 +146,4 @@ const mapStateToProps = (state) => {
     }
 }
 export default connect(mapStateToProps, 
-    { loadCartItems,updateCartItemQuantity,removeItemFromCart })(CartPage);
+    { loadCartItems,updateCartItemQuantity,removeItemFromCart, checkout })(CartPage);

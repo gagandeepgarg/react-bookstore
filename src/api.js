@@ -31,6 +31,9 @@ export default {
         updateCartItemQuantity:(cartItem) =>
             axios.post(`/api/carts/updateQuantity`,{cartItem}),
         removeItemFromCart:(cartItem) =>
-            axios.post(`/api/carts/removeFromCart`,{cartItem})
+            axios.post(`/api/carts/removeFromCart`,{cartItem}),
+        checkout:(username) =>
+            axios.post(`/api/carts/checkout`,{username})
+
     }
-};
+}
