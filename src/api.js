@@ -35,5 +35,9 @@ export default {
         checkout:(username) =>
             axios.post(`/api/carts/checkout`,{username})
 
+    },
+    order:{
+        loadUserOrdersData: (pageNumber, filesPerPage,username) =>
+            axios.get(`/api/orders/loadUserOrdersData?pageNumber=${pageNumber}&filesPerPage=${filesPerPage}&username=${username}`)
     }
 }

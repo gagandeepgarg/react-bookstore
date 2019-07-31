@@ -13,6 +13,7 @@ import ConfirmationPage from './components/pages/ConfirmationPage';
 import ForgotPasswordPage from './components/pages/ForgotPasswordPage';
 import ResetPasswordPage from './components/pages/ResetPasswordPage';
 import CartPage from './components/pages/CartPage';
+import OrdersPage from './components/pages/OrdersPage';
 
 const App=({location})=><div className="ui container">
     <Route location={location} path="/" exact component={HomePage} />
@@ -22,7 +23,8 @@ const App=({location})=><div className="ui container">
     <GuestRoute location={location} path="/forgot-password" exact component={ForgotPasswordPage} />
     <GuestRoute location={location} path="/reset-password/:token" exact component={ResetPasswordPage} />
     <UserRoute location={location} path="/dashboard" exact component={DashboardPage} />
-    <UserRoute location={location} path="/cart" exact component={CartPage} />    
+    <UserRoute location={location} path="/cart" exact component={CartPage} />
+    <UserRoute location={location} path="/order" exact component={OrdersPage} />    
 </div>
 App.propTypes ={
     location:PropTypes.shape({

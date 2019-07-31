@@ -10,8 +10,8 @@ import { loadCartItems } from '../../actions/carts';
 class HeaderPage extends React.Component{
 
     componentDidMount() {
-        this.props.loadCartItems(this.props.username)
-        .then((cart) => console.log(cart));
+        this.props.loadCartItems(this.props.username);
+        // .then((cart) => console.log(cart));
     }
     handleClick = (e, { name })=> {
         if(name==='home'){
@@ -37,9 +37,9 @@ class HeaderPage extends React.Component{
                     </Menu.Item> }
                     {this.props.isLoggedIn && (
                         <span>
-                            {/* <Link to="/order"> */}
+                            <Link to="/order">
                                 <Button  >My Orders</Button>
-                                {/* </Link> */}
+                            </Link>
                             <Link to="/cart"><Button  >My Cart({this.props.cartItemsCount})</Button></Link>
                             <Button onClick={()=>this.props.logout()} >Log Out</Button>
                         </span>)
