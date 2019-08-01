@@ -8,6 +8,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import store from './store';
 import { userLoggedIn } from './actions/auth';
+import setAuthorizationHeader from './utils/setAuthorizationHeader';
 
 if (localStorage.bookwormJWT) {
     const payload = decode(localStorage.bookwormJWT);
@@ -17,6 +18,7 @@ if (localStorage.bookwormJWT) {
         email: payload.email,
         confirmed: payload.confirmed
     };
+    setAuthorizationHeader(localStorage.bookwormJWT);
     store.dispatch(userLoggedIn(user));
 }
 
