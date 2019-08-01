@@ -1,5 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+This is application for handling bookstore. Shopping of books available for end User, handles user cart operations and show orders data.
+
+
 ## Available Scripts
 
 In the project directory, you can run:
@@ -12,6 +15,12 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
 
+## Dependencies
+
+Please find the repository for bookstore-API and run it for this application backend setup. 
+
+Run npm start for running nodeJs API
+### Mongodb needs to be installed in the system
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.<br>
